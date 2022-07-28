@@ -1,9 +1,8 @@
 ## cf-worker-saml-proxy-okta-auth0
 
 
-
-This demonstrates using aproxy at the Okta SAML ACS Url to re route the SAML Response to an Auth0 ACS/SP
-
+This demonstrates using a proxy at the Okta SAML ACS Url to re route the SAML Response to an Auth0 ACS/SP. 
+For this setup Okta has been setup with a vanity url. proxy is CF.
 
 #### Wrangler
 
