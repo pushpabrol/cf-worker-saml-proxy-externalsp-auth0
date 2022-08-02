@@ -41,8 +41,15 @@ async function readRequestBody(request) {
   }
 }
 
-function responseForm(samlResponse, relayState) {
-  const newLocation = 'https://oidc-tests.auth0.com/login/callback?connection=pse-addons';
+async function responseForm(samlResponse, relayState, url) {
+  //console.log(url);
+
+  const lastPart = url.substring(url.lastIndexOf('/') + 1)
+  //console.log(lastPart);
+  
+  let auth0Connection = await okta_auth0_saml_sp_mappings.get(lastPart);
+  let auth0Domain = await okta_auth0_saml_sp_mappings.get("auth0SPDomain")
+  const newLocation = `https://${auth0Domain}/login/callback?connection=${auth0Connection}`;
 
   var rStateHtml = "";
   if (typeof relayState !== 'undefined' && relayState !== null) rStateHtml = `<input type="hidden" name="RelayState" value="${relayState}">`;
@@ -88,7 +95,7 @@ async function handleRequest(request) {
   const samlResponse = jsonBody["SAMLResponse"];
   const relayState = jsonBody["RelayState"];
 
-  const form = responseForm(samlResponse, relayState);
+  const form = await responseForm(samlResponse, relayState, request.url);
   console.log(form);
   return new Response(form, {
     headers: {
@@ -101,6 +108,7 @@ addEventListener('fetch', event => {
   const { request } = event;
   const { url } = request;
 
+  
   if (request.method === 'GET' && url.includes('testform')) {
     return event.respondWith(rawHtmlResponse(testForm));
   }
