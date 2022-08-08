@@ -2,7 +2,7 @@
 
 
 This demonstrates using a proxy at the Okta SAML ACS Url to re route the SAML Response to an Auth0 ACS/SP. 
-For this setup Okta has been setup with a vanity url. proxy is CF.
+For this setup Okta has been setup with a vanity url. Proxy is CF (Cloudflare).
 
 #### Wrangler
 
